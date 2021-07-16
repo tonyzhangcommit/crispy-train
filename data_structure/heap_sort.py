@@ -11,6 +11,7 @@
 
 import random
 import time
+new_l = []
 
 # 自定义装饰器，返回当前函数执行时间
 def timing(func):
@@ -28,7 +29,10 @@ def heap_sort(l):
     # 最后一个父节点索引为 len(l) // 2 - 1 ，所有父节点列表为 0 到 len(l) // 2 - 1
     # 父节点两个子节点索引值（如果存在的话）左子节点 2*i + 1,右子节点 2*i + 2 其中i 为父节点
     # 每一轮比较涉及所有树的的比较
+    global new_l
     last_p_index = len(l) // 2 - 1
+    if len(l) == 0:
+        return
     while last_p_index >= 0:
         if 2 * last_p_index + 2 < len(l) -1:  # 证明最后一个非子叶节点存在右孩子,此节点必定存在左孩子
             if l[2 * last_p_index + 2] > l[last_p_index]:
@@ -36,10 +40,12 @@ def heap_sort(l):
         if l[2 * last_p_index + 1] > l[last_p_index]:
             l[2 * last_p_index + 1], l[last_p_index] = l[last_p_index], l[2 * last_p_index + 1]  # 交换左孩子
         last_p_index -= 1
-
+    new_l.insert(0,l[0])
+    l = l[1:]
+    heap_sort(l)
 
 if __name__ == '__main__':
-    l = [random.randint(5,100) for x in range(30)]
+    l = [random.randint(5,100) for x in range(300)]
     print(l)
     heap_sort(l)
-    print(l)
+    print(new_l)
