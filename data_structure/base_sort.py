@@ -57,7 +57,7 @@ def baseSortLSD(l):
             bit_info = data//10**bit_index%10    # 获取指定位数的数值
             base_list[bit_info].append(data)     # 分桶
         l = []
-        for base_index in base_list:
+        for base_index in base_list:             # 合并各个桶的数据
             l += base_index
     print('排序后',l)
 
