@@ -31,24 +31,36 @@ def calculate_time(func):
 # 算法核心：将待排序整数列表进行循环分桶，分别以个，十，百，千等等顺序进行分组，分组后进行排序
 # 实现难点：
 # 1、判断当前列表中最大元素的位数（这里 ‘假设’不知道 python 列表 max 函数 或者math 第三方库应用 的前提）,最大位数决定循环次数
-# 2、获取各个待排序数据指定位数
+# 2、获取未知整数指定位数的数值
 # 最低位优先法(Least Significant Digit first)
-def baseSortLSD(l,barrel=10):
+@calculate_time
+def baseSortLSD(l):
     '''
     l：待排序数组
     barrel:桶的数量，默认为10，0 1 2 3 4 5 6 7 8 9
     '''
-    barrel_list = [[] for x in range(10)]     # 生成各个子桶列表
-    bit_index = 1                             # 默认列表不为空，从个位开始
-    index = 0
-    for barrel_index in barrel_list:
-        for i in l:
-            pass
-        index += 1
-    print(barrel_list)
+    # 这里使用python 实现桶排序，并且尽量不使用自带数据类型自带函数 嫌麻烦可以用max函数代替
+    print('排序前:',l)
+    max_num = 0
+    for i in l:
+        if i > max_num:
+            max_num = i
 
+    # 这里最大数值决定当前循环次数，主要是最大数的位数
+    bit_num = 1
+    while max_num >= 10**bit_num:
+        bit_num += 1
 
-
+    for bit_index in range(bit_num):
+        base_list = [[] for i in range(10)]      # 分桶排序这边都是分为10个桶，0 1 2 3 4 5 6 7 8 9
+        for data in l:
+            bit_info = data//10**bit_index%10    # 获取指定位数的数值
+            base_list[bit_info].append(data)     # 分桶
+        l = []
+        for base_index in base_list:
+            l += base_index
+    print('排序后',l)
 
 if __name__ == '__main__':
-    l = [random.randint(0,1000) for x in range(900)]
+    l = [random.randint(0,100000000) for x in range(10000000)]
+    baseSortLSD(l)
